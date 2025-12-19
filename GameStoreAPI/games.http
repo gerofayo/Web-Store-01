@@ -1,0 +1,53 @@
+GET http://localhost:5255/games
+
+###
+GET http://localhost:5255/genres
+
+###
+GET http://localhost:5255/games/1
+
+###
+POST http://localhost:5255/games
+Content-Type: application/json
+
+{
+  "name": "Forza Horizon V",
+  "genreId": 5,
+  "price": 59.99,
+  "release": "2021-11-09"
+}
+###
+POST http://localhost:5255/games
+Content-Type: application/json
+
+{
+  "name": "TeamFortress 2",
+  "genreId": 3,
+  "price": 0.00,
+  "release": "2007-10-10"
+}
+###
+POST http://localhost:5255/games
+Content-Type: application/json
+
+{
+  "name": "The Witcher 3: Wild Hunt",
+  "genreId": 1,
+  "price": 29.99,
+  "release": "2015-05-19"
+}
+
+
+###
+PUT http://localhost:5255/games/1
+Content-Type: application/json
+
+{
+  "name": "Forza Horizon 5",
+  "genreId": 5,
+  "price": 39.99,
+  "release": "2021-11-09"
+}
+
+###
+DELETE http://localhost:5255/games/6

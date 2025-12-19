@@ -1,0 +1,62 @@
+﻿@page "/"
+@using System.Text.Json
+@using GameStoreFrontEnd.Components
+@inject GamesClient Client
+
+<PageTitle>🎮GameStore🎮</PageTitle>
+@if(_games is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table caption-top table-dark table-striped table-hover">
+        <caption class="text-light">Game List</caption>
+        <thead class="table-light">
+            <th>Id</th>
+            <th>Name</th>
+            <th>Genre</th>
+            <th>Price</th>
+            <th>Release Date</th>
+            <th></th>
+        </thead>
+        <tbody>
+            @foreach (GameSummary game in _games)
+            {
+                <tr>
+                    <td>@game.Id</td>
+                    <td>@game.Name</td>
+                    <td>@game.Genre</td>
+                    <td>@game.Price.ToString("C2")</td>
+                    <td>@game.Release</td>
+                    <td>
+                        <div class="d-flex">
+                            <a href="@GameUrl(game.Id)" role="button" class="btn btn-primary me-2" title="Edit Game">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@GetDeleteModalId(game)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                        <DeleteGame game="@game"/>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<div class="mt-2">
+    <a href="/editgame" class="btn btn-primary" role="button">New Game</a>
+</div>
+
+@code
+{
+    private GameSummary[]? _games;
+    protected override async Task OnInitializedAsync()
+    {  
+        _games = await Client.GetGamesAsync();
+        Console.WriteLine($"Games: {JsonSerializer.Serialize(_games)}");
+    }
+    private string GameUrl(int id) => $"/editgame/{id}";
+    private string GetDeleteModalId(GameSummary game) => $"#{DeleteGame.GetModalId(game)}";
+}
